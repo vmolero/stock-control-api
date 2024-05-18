@@ -1,7 +1,8 @@
 {
   "tasks": {
     "start": "deno run --allow-read --allow-net main.ts",
-    "test": "deno test --allow-read"
+    "test": "deno test --allow-read",
+    "deploy": "deployctl deploy --entrypoint main.ts --save-config"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^0.225.2",
@@ -18,7 +19,21 @@
     "semiColons": false,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": ["src/"],
-    "exclude": ["src/testdata/", "src/fixtures/**/*.ts"]
+    "include": [
+      "src/"
+    ],
+    "exclude": [
+      "src/testdata/",
+      "src/fixtures/**/*.ts"
+    ]
+  },
+  "deploy": {
+    "project": "a994a35a-e189-4de5-8401-379d3d3db6fa",
+    "exclude": [
+      "**/node_modules",
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
   }
 }
