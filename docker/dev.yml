@@ -1,0 +1,53 @@
+services:
+    postgres:
+        container_name: postgres
+        hostname: postgres
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: root
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready"]
+            interval: 1s
+            timeout: 5s
+            retries: 10
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - dev_network
+
+    redis:
+        container_name: redis
+        image: redis:latest
+        restart: always
+        entrypoint: redis-server --appendonly yes --requirepass root --maxmemory 512mb --maxmemory-policy allkeys-lru
+        networks:
+            - dev_network
+        ports:
+            - 6379:6379
+        volumes:
+            - redis-data:/var/lib/redis
+
+    adminer:
+        image: adminer
+        container_name: adminer
+        restart: always
+        ports:
+            - 8088:8080
+        networks:
+            - dev_network
+
+    web:
+        image: nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ../public:/usr/share/nginx/html
+            - ./nginx:/etc/nginx/conf.d
+
+volumes:
+    pgdata:
+    redis-data:
+
+networks:
+    dev_network:
