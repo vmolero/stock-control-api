@@ -2,6 +2,7 @@
   "tasks": {
     "start": "deno run --allow-read --allow-net main.ts",
     "test": "deno test --allow-read",
+    "format": "deno fmt",
     "deploy": "deployctl deploy --entrypoint main.ts --save-config"
   },
   "imports": {
@@ -19,20 +20,13 @@
     "semiColons": false,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": [
-      "src/"
-    ],
-    "exclude": [
-      "src/testdata/",
-      "src/fixtures/**/*.ts"
-    ]
+    "include": ["src/"],
+    "exclude": ["src/testdata/", "src/fixtures/**/*.ts"]
   },
   "deploy": {
+    "name": "stock-control-api",
     "project": "a994a35a-e189-4de5-8401-379d3d3db6fa",
-    "exclude": [
-      "**/node_modules",
-      "**/node_modules"
-    ],
+    "exclude": ["**/node_modules", "**/node_modules"],
     "include": [],
     "entrypoint": "main.ts"
   }

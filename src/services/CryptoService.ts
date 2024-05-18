@@ -1,5 +1,5 @@
-import { encodeBase64, decodeBase64 } from "@std/encoding/base64";
-import { crypto } from "@std/crypto/crypto";
+import { decodeBase64, encodeBase64 } from '@std/encoding/base64'
+import { crypto } from '@std/crypto/crypto'
 import config from '../config.ts'
 
 class CryptoService {
@@ -7,7 +7,7 @@ class CryptoService {
     return new CryptoService({
       key: config.cryptoService.key,
       iv: config.cryptoService.iv,
-      mode: config.cryptoService.mode
+      mode: config.cryptoService.mode,
     })
   }
   private key: Uint8Array
@@ -20,7 +20,7 @@ class CryptoService {
     key,
     iv,
     mode = 'AES-CBC',
-    length = 256
+    length = 256,
   }: {
     key: string
     iv: string
@@ -40,7 +40,7 @@ class CryptoService {
         this.key,
         { name: this.mode, length: this.length },
         false,
-        ['encrypt', 'decrypt']
+        ['encrypt', 'decrypt'],
       )
     }
     return this.cryptoKey
@@ -51,10 +51,10 @@ class CryptoService {
     const output = await crypto.subtle.encrypt(
       { name: this.mode, iv: this.iv },
       cryptoKey,
-      new TextEncoder().encode(text)
+      new TextEncoder().encode(text),
     )
 
-    return encodeBase64(output);
+    return encodeBase64(output)
   }
 
   async decrypt(base64encrypted: string) {
@@ -62,8 +62,8 @@ class CryptoService {
     const output = await crypto.subtle.decrypt(
       { name: this.mode, iv: this.iv },
       cryptoKey,
-      decodeBase64(base64encrypted)
-    );
+      decodeBase64(base64encrypted),
+    )
 
     return new TextDecoder().decode(output)
   }

@@ -1,9 +1,9 @@
-import * as log from "@std/log";
+import * as log from '@std/log'
 
 log.setup({
   //define handlers
   handlers: {
-    console: new log.ConsoleHandler("DEBUG", {
+    console: new log.ConsoleHandler('DEBUG', {
       formatter: (record: log.LogRecord) =>
         `${record.datetime.toISOString()} [${record.levelName}] ${record.msg}`,
       useColors: true,
@@ -13,14 +13,14 @@ log.setup({
   //assign handlers to loggers
   loggers: {
     default: {
-      level: "DEBUG",
-      handlers: ["console"],
+      level: 'DEBUG',
+      handlers: ['console'],
     },
     client: {
-      level: "INFO",
-      handlers: ["file"],
+      level: 'INFO',
+      handlers: ['file'],
     },
   },
-});
+})
 
-export default log;
+export default log
