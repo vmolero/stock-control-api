@@ -5,12 +5,10 @@ services:
         image: postgres
         restart: always
         environment:
+            POSTGRES_USER: postgres
             POSTGRES_PASSWORD: root
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready"]
-            interval: 1s
-            timeout: 5s
-            retries: 10
+        ports:
+            - 5432:5432
         volumes:
             - pgdata:/var/lib/postgresql/data
         networks:
@@ -33,17 +31,9 @@ services:
         container_name: adminer
         restart: always
         ports:
-            - 8088:8080
+            - 8080:8080
         networks:
             - dev_network
-
-    web:
-        image: nginx
-        ports:
-            - "80:80"
-        volumes:
-            - ../public:/usr/share/nginx/html
-            - ./nginx:/etc/nginx/conf.d
 
 volumes:
     pgdata:
