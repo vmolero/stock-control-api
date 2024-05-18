@@ -38,7 +38,7 @@ Deno.test('it should fail to decrypt using a different key', async () => {
     length: 256
   })
 
-  assertRejects(async () => {
+  await assertRejects(async () => {
     await cryptoService2.decrypt(base64encrypted)
   })
 })
