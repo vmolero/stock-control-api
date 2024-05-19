@@ -25,7 +25,7 @@
     "semiColons": false,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": ["src/"],
+    "include": ["main.ts", "src/"],
     "exclude": ["src/testdata/", "src/fixtures/**/*.ts"]
   },
   "deploy": {
