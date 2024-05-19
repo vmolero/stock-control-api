@@ -17,6 +17,9 @@ class Config {
     password: string
     port: number
   }
+  public db: {
+    connectionString: string
+  }
 
   static createConfig() {
     return new Config(envConfig)
@@ -41,6 +44,9 @@ class Config {
     this.keyValueService = {
       // In milliseconds
       defaultTtl: (Number(envConfig['KEY_VALUE_DEFAULT_TTL']) || 600) * 1000,
+    }
+    this.db = {
+      connectionString: envConfig['DATABASE_URL'],
     }
   }
 }
