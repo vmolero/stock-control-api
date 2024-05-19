@@ -1,7 +1,10 @@
-import { Pool, QueryArguments, QueryObjectOptions } from 'postgres'
+import {
+  ClientOptions,
+  Pool,
+  QueryArguments,
+  QueryObjectOptions,
+} from 'postgres'
 import config from '../config.ts'
-
-const POOL_CONNECTIONS = 20
 
 type DatabaseConfiguration = {
   database: string
@@ -9,7 +12,6 @@ type DatabaseConfiguration = {
   password: string
   port: number
   user: string
-  poolConnections: number
 }
 
 class DatabaseService {
@@ -36,15 +38,25 @@ class DatabaseService {
         password,
         port: Number(port),
         user,
-        poolConnections: POOL_CONNECTIONS,
       })
     }
     return DatabaseService.instance
   }
   private constructor(options: DatabaseConfiguration) {
+    const configuration: ClientOptions = {
+      database: options.database,
+      hostname: options.hostname,
+      password: options.password,
+      port: options.port,
+      user: options.user,
+      connection: {
+        attempts: config.db.connectionAttempts,
+      },
+    }
     this.dbPool = new Pool(
-      options,
-      options.poolConnections,
+      configuration,
+      config.db.connectionPoolNumber,
+      true,
     )
   }
 

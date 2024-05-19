@@ -3,7 +3,7 @@
     "start": "deno fmt && deno run --allow-read --allow-net main.ts",
     "test": "deno fmt && deno test --allow-read",
     "format": "deno fmt",
-    "deploy": "deno fmt && deployctl deploy --entrypoint main.ts --save-config",
+    "deploy": "deno fmt && deployctl deploy --entrypoint main.ts",
     "docker": "docker-compose -f ./docker/dev.yml up -d"
   },
   "imports": {
@@ -30,7 +30,7 @@
   },
   "deploy": {
     "project": "a994a35a-e189-4de5-8401-379d3d3db6fa",
-    "exclude": ["**/node_modules", "**/node_modules"],
+    "exclude": ["**/node_modules"],
     "include": [],
     "entrypoint": "main.ts"
   }

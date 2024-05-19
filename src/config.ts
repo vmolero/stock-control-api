@@ -19,6 +19,8 @@ class Config {
   }
   public db: {
     connectionString: string
+    connectionAttempts: number
+    connectionPoolNumber: number
   }
 
   static createConfig() {
@@ -47,6 +49,12 @@ class Config {
     }
     this.db = {
       connectionString: envConfig['DATABASE_URL'],
+      connectionAttempts: envConfig['DATABASE_CONNECTION_ATTEMPTS']
+        ? Number(envConfig['DATABASE_CONNECTION_ATTEMPTS'])
+        : 5,
+      connectionPoolNumber: envConfig['DATABASE_CONNECTION_POOL_NUMBER']
+        ? Number(envConfig['DATABASE_CONNECTION_POOL_NUMBER'])
+        : 20,
     }
   }
 }
