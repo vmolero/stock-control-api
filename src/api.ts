@@ -7,11 +7,16 @@ const crypto = CryptoService.createCryptoService()
 const databaseService = DatabaseService.getInstance()
 
 api.get('/', async (c) => {
-  const [res]: { id: number; createdAt: Date }[] = await databaseService.query<
-    { id: number; createdAt: Date }
-  >('select * from healthcheck')
-  const helloMessage = await crypto.encrypt(res.createdAt.toISOString())
-  return c.text(`${helloMessage} => ${await crypto.decrypt(helloMessage)}`)
+  try {
+    const [res]: { id: number; createdAt: Date }[] = await databaseService
+      .query<{ id: number; createdAt: Date }>(
+        'select * from healthcheck',
+      )
+    const helloMessage = await crypto.encrypt(res.createdAt.toISOString())
+    return c.text(`${helloMessage} => ${await crypto.decrypt(helloMessage)}`)
+  } catch (err) {
+    return c.text(err.message)
+  }
 })
 
 export default api
