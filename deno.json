@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno fmt && deno run --allow-read --allow-net main.ts",
+    "start": "deno fmt && deno run --allow-read --allow-net --allow-env main.ts",
     "test": "deno fmt && deno test --allow-read",
     "format": "deno fmt",
     "deploy": "deno fmt && deployctl deploy --entrypoint main.ts",

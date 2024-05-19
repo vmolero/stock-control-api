@@ -21,7 +21,7 @@ class DatabaseService {
     if (!DatabaseService.instance) {
       const connectionString = config.db.connectionString
       const stringExp = new RegExp(
-        /postgres:\/\/(.+):(.+)@(.+):(\d+)\/postgres/,
+        /postgres:\/\/(.+):(.+)@(.+):(\d+)\/(\w+)/,
       )
       const result: RegExpExecArray | null = stringExp.exec(
         connectionString,
@@ -31,9 +31,9 @@ class DatabaseService {
           `Failed to initialize DatabaseService. Connection string mal formed`,
         )
       }
-      const [_, user, password, hostname, port] = result
+      const [_, user, password, hostname, port, database] = result
       DatabaseService.instance = new DatabaseService({
-        database: 'public',
+        database,
         hostname,
         password,
         port: Number(port),
@@ -60,7 +60,7 @@ class DatabaseService {
     )
   }
 
-  public async query<T>(query: string, params: QueryArguments): Promise<T[]> {
+  public async query<T>(query: string, params?: QueryArguments): Promise<T[]> {
     using client = await this.dbPool.connect()
     const { rows } = await client.queryObject<T>(
       { camelCase: true, text: query, args: params } as QueryObjectOptions,
