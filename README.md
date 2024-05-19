@@ -13,3 +13,10 @@ deno task start
 ```
 deno task test
 ```
+
+## Set up guide (wip)
+
+### Register on Deno Deploy
+* Use deploy command to deploy
+
+### Create free postgres DB from https://supabase.com
