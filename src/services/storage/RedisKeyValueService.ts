@@ -10,6 +10,7 @@ export interface MinimumRedisProps {
   flushall(async?: boolean): Promise<string>
   del(...keys: string[]): Promise<number>
   close: () => Promise<void>
+  ping: (message: string) => Promise<string>
 }
 
 class RedisKeyValueService implements KeyValueStorable {
@@ -47,11 +48,17 @@ class RedisKeyValueService implements KeyValueStorable {
       )
     }
   }
-
   private redis: MinimumRedisProps
 
   constructor(source: { redis: MinimumRedisProps }) {
     this.redis = source.redis
+  }
+  public async healthCheck() {
+    const response = await this.redis.ping('health check')
+    if (!response) {
+      throw new Error(`Redis service offline`)
+    }
+    log.info(`Redis service online`)
   }
   async has(key: string) {
     const exists = await this.redis.exists(key)
