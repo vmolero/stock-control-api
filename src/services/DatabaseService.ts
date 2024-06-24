@@ -59,6 +59,15 @@ class DatabaseService {
       true,
     )
   }
+  public async healthCheck() {
+    const [row] = await this.query<{ version: string }>(
+      `SELECT version() AS version`,
+    )
+
+    if (!row.version) {
+      throw new Error(`Database health check failed`)
+    }
+  }
 
   public async query<T>(query: string, params?: QueryArguments): Promise<T[]> {
     using client = await this.dbPool.connect()
