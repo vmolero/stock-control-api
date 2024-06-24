@@ -22,7 +22,7 @@ api.get('/api/health-check', async (c) => {
         'select * from healthcheck',
       )
     const helloMessage = await crypto.encrypt(res.createdAt.toISOString())
-    return c.text(`Health Check OK! => ${await crypto.decrypt(helloMessage)}`)
+    return c.text(`Health Check OK! ${await crypto.decrypt(helloMessage)}`)
   } catch (err) {
     return c.text(err.message)
   }
