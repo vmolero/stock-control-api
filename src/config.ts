@@ -9,7 +9,7 @@ type RetryConfig = {
 }
 
 class Config {
-  public app: { port: number; environment: string }
+  public app: { port: number; environment: string; keyValueStore: string }
   public keyValueService: { defaultTtl: number }
   public cryptoService: {
     key: string
@@ -38,6 +38,7 @@ class Config {
     this.app = {
       port: Number(envConfig['PORT'] || defaultPort),
       environment: envConfig['ENVIRONMENT'] || 'development',
+      keyValueStore: envConfig['KEY_VALUE_STORE'] || 'db',
     }
     this.cryptoService = {
       key: envConfig['CRYPTO_SERVICE_KEY'],

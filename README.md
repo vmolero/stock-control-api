@@ -20,3 +20,6 @@ deno task test
 * Use deploy command to deploy
 
 ### Create free postgres DB from https://supabase.com
+
+### Free Redis storage
+https://app.redislabs.com
