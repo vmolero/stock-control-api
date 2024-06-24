@@ -5,6 +5,7 @@ import {
   QueryObjectOptions,
 } from 'postgres'
 import config from '../config.ts'
+import log from './LogService.ts'
 
 type DatabaseConfiguration = {
   database: string
@@ -60,13 +61,14 @@ class DatabaseService {
     )
   }
   public async healthCheck() {
+    log.debug(`Database check`)
     const [row] = await this.query<{ version: string }>(
       `SELECT version() AS version`,
     )
-
     if (!row.version) {
       throw new Error(`Database health check failed`)
     }
+    log.debug(`Database connection successful [version=${row.version}]`)
   }
 
   public async query<T>(query: string, params?: QueryArguments): Promise<T[]> {

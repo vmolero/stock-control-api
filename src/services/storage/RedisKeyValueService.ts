@@ -53,13 +53,7 @@ class RedisKeyValueService implements KeyValueStorable {
   constructor(source: { redis: MinimumRedisProps }) {
     this.redis = source.redis
   }
-  public async healthCheck() {
-    const response = await this.redis.ping('health check')
-    if (!response) {
-      throw new Error(`Redis service offline`)
-    }
-    log.info(`Redis service online`)
-  }
+
   async has(key: string) {
     const exists = await this.redis.exists(key)
 
@@ -100,6 +94,15 @@ class RedisKeyValueService implements KeyValueStorable {
 
   disconnect() {
     return this.redis.close()
+  }
+
+  async ping(message: string) {
+    const ack = await this.redis.ping(message)
+    if (!ack) {
+      throw new Error(`Redis service offline`)
+    }
+    log.info(`Redis service online [ack=${ack}]`)
+    return ack
   }
 }
 

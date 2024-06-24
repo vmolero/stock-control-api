@@ -3,6 +3,11 @@ import { load } from '@std/dotenv'
 const envConfig = await load()
 const defaultPort = 8087
 
+type RetryConfig = {
+  attempts?: number
+  delay?: number
+}
+
 class Config {
   public app: { port: number; environment: string }
   public keyValueService: { defaultTtl: number }
@@ -16,11 +21,13 @@ class Config {
     username: string
     password: string
     port: number
+    retryConfig: RetryConfig
   }
   public db: {
     connectionString: string
     connectionAttempts: number
     connectionPoolNumber: number
+    retryConfig: RetryConfig
   }
 
   static createConfig() {
@@ -42,6 +49,10 @@ class Config {
       username: envConfig['REDIS_USERNAME'],
       password: envConfig['REDIS_PASSWORD'],
       port: Number(envConfig['REDIS_PORT']),
+      retryConfig: {
+        attempts: Number(envConfig['REDIS_BOOTSTRAP_ATTEMPTS'] || 10),
+        delay: Number(envConfig['REDIS_BOOTSTRAP_DELAY'] || 1000),
+      },
     }
     this.keyValueService = {
       // In milliseconds
@@ -55,6 +66,10 @@ class Config {
       connectionPoolNumber: envConfig['DATABASE_CONNECTION_POOL_NUMBER']
         ? Number(envConfig['DATABASE_CONNECTION_POOL_NUMBER'])
         : 20,
+      retryConfig: {
+        attempts: Number(envConfig['DATABASE_BOOTSTRAP_ATTEMPTS'] || 10),
+        delay: Number(envConfig['DATABASE_BOOTSTRAP_DELAY'] || 1000),
+      },
     }
   }
 }
