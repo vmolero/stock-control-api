@@ -15,7 +15,8 @@ const RedisMock: MinimumRedisProps = {
   exists: () => Promise.resolve(1),
   flushall: () => Promise.resolve('bye'),
   del: () => Promise.resolve(1),
-  close: async () => {}
+  close: async () => {},
+  ping: (message: string) => Promise.resolve(message)
 }
 
 Deno.test('it should call redis set with default ttl', async () => {
